@@ -36,6 +36,7 @@
 #include <Tabnotbk.hpp>
 #include <IniFiles.hpp>
 #include <assert.h>
+#include <Registry.hpp>
 /*
 //----Highlighting-----------------------------------------------------------
 #include "Highlight.h"
@@ -52,7 +53,7 @@ int         DelphiThemesCount;
 //unsigned long stat_GetClassAdr_calls = 0;
 //unsigned long stat_GetClassAdr_adds = 0;
 //---------------------------------------------------------------------------
-String  IDRVersion = "01.04.2017"; 
+String  IDRVersion = "27.04.2018"; 
 //---------------------------------------------------------------------------
 SysProcInfo    SysProcs[] = {
     {"@HandleFinally", 0},
@@ -4865,6 +4866,30 @@ void __fastcall TFMain_11011981::FormShow(TObject *Sender)
             ShowMessage("File " + FileName + " is not executable or IDR project file");
         }
     }
+  // Проверка записей реестра exe / dll файлов
+  bool exefile1, dllfile1;
+  TRegistry *reg = new TRegistry(KEY_EXECUTE);
+  reg->RootKey = HKEY_CLASSES_ROOT;
+  reg->OpenKey("\\exefile\\shell\\Open with IDR\\command\\", false);
+   if (reg->ValueExists(""))
+    exefile1 = true;
+   else
+    exefile1 = false;
+    reg->CloseKey();
+
+  reg->OpenKey("\\dllfile\\shell\\Open with IDR\\command\\", false);
+  if (reg->ValueExists(""))
+   dllfile1 = true;
+  else
+   dllfile1 = false;
+   reg->CloseKey();
+   delete reg;
+
+   if ((exefile1 == true) && (dllfile1 == true)) 
+    ShellIntegration1->Checked = true;
+   else
+    ShellIntegration1->Checked = false;
+
 }
 //---------------------------------------------------------------------------
 /*
@@ -12916,8 +12941,11 @@ void __fastcall TFMain_11011981::CopyAddress(String line, int ofs, int bytes)
 //---------------------------------------------------------------------------
 void __fastcall TFMain_11011981::miCopyAddressCodeClick(TObject *Sender)
 {
+ if (lbCode->ItemIndex >= 0 )
+    {
     int bytes = (lbCode->ItemIndex) ? 8 : 0;
     CopyAddress(lbCode->Items->Strings[lbCode->ItemIndex], 1, bytes);
+    }
 }
 //---------------------------------------------------------------------------
 void __fastcall TFMain_11011981::ClearPassFlags()
@@ -13322,6 +13350,105 @@ void __fastcall TFMain_11011981::miCopytoClipboardNamesClick(
       TObject *Sender)
 {
     Copy2Clipboard(lbNames->Items, 0, false);
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFMain_11011981::CMD1Click(TObject *Sender)
+{
+ ShellExecute(Handle, "open", "cmd.exe", 0,0, SW_SHOWNORMAL);         
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFMain_11011981::Notepad1Click(TObject *Sender)
+{
+ ShellExecute(Handle, "open", "notepad.exe", 0,0, SW_SHOWNORMAL);        
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFMain_11011981::Calc1Click(TObject *Sender)
+{
+ ShellExecute(Handle, "open", "calc.exe", 0,0, SW_SHOWNORMAL);        
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFMain_11011981::ShellIntegration1Click(TObject *Sender)
+{
+  if (!ShellIntegration1->Checked)
+ {
+ TRegistry *reg=new TRegistry(KEY_ALL_ACCESS);
+  reg->RootKey=HKEY_CLASSES_ROOT;
+  reg->OpenKey("\\exefile\\shell\\Open with IDR\\command", true);
+  reg->WriteString("",(ExtractFilePath(Application->ExeName)+"Idr.exe %1"));
+  reg->CloseKey();
+
+  reg->OpenKey("\\dllfile\\shell\\Open with IDR\\command", true);
+  reg->WriteString("",(ExtractFilePath(Application->ExeName)+"Idr.exe %1"));
+  reg->CloseKey();
+  delete reg;
+  ShellIntegration1->Checked = true;
+ }
+ else
+ {
+  TRegistry *reg=new TRegistry(KEY_ALL_ACCESS);
+  reg->RootKey=HKEY_CLASSES_ROOT;
+  reg->DeleteKey("\\exefile\\shell\\Open with IDR");
+  reg->DeleteKey("\\dllfile\\shell\\Open with IDR");
+  delete reg;
+  ShellIntegration1->Checked = false;
+ }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFMain_11011981::CopyLines1Click(TObject *Sender)
+{
+if (lbStrings->ItemIndex < 0)
+      return;
+  AnsiString strm1, strm2;
+  strm1 = "";
+  strm2 = "";
+  for(int i = 0; i < lbStrings->Items->Count; i++)
+  {
+   if(lbStrings->Selected[i])
+    {
+      strm1 = (lbStrings->Items->Strings[i]);
+      strm2 += (strm1.Delete(1,1)+"\r"+"\n");
+    }
+   }
+   Clipboard()->Open();
+   Clipboard()->AsText = strm2;
+   Clipboard()->Close();
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFMain_11011981::CopyLinesC1Click(TObject *Sender)
+{     
+ if (lbCode->ItemIndex < 0)
+  return;
+ AnsiString strmc1, strmc2, strmc3, strmc4, strmc5;
+ strmc1 = "";
+ strmc2 = "";
+ strmc3 = "";
+ strmc4 = "";
+ strmc5 = "";
+ for (int k = 0; k < lbCode->Items->Count; k++)
+ {
+  if(lbCode->Selected[k])
+   {
+     strmc1 = (lbCode->Items->Strings[k]);
+     strmc2 = strmc1.Delete(1,1);
+     strmc4 = ("$"+strmc2.SubString(1,8));
+    if (TryStrToInt(strmc4, 0))
+     {
+      strmc3 = strmc2.Delete(9,1);
+      strmc5 += (strmc3.Delete(strmc3.Length(), 1)+"\r"+"\n");
+     }
+  else
+   strmc5 += (strmc2+"\r"+"\n");
+    }
+  }
+   Clipboard()->Open();
+   Clipboard()->AsText = strmc5;
+   Clipboard()->Close();
 }
 //---------------------------------------------------------------------------
 

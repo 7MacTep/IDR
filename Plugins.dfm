@@ -7,15 +7,15 @@ object FPlugins: TFPlugins
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
-  Font.Height = -13
+  Font.Height = -10
   Font.Name = 'MS Sans Serif'
   Font.Style = []
   OldCreateOrder = False
   Position = poScreenCenter
   OnCreate = FormCreate
   OnShow = FormShow
-  PixelsPerInch = 120
-  TextHeight = 16
+  PixelsPerInch = 96
+  TextHeight = 13
   object cklbPluginsList: TCheckListBox
     Left = 0
     Top = 0
@@ -23,24 +23,24 @@ object FPlugins: TFPlugins
     Height = 209
     OnClickCheck = cklbPluginsListClickCheck
     Align = alTop
-    ItemHeight = 16
+    ItemHeight = 13
     TabOrder = 0
     OnDblClick = cklbPluginsListDblClick
   end
   object bOk: TButton
-    Left = 144
-    Top = 216
-    Width = 75
-    Height = 25
+    Left = 125
+    Top = 224
+    Width = 61
+    Height = 20
     Caption = 'Ok'
     TabOrder = 1
     OnClick = bOkClick
   end
   object bCancel: TButton
-    Left = 320
-    Top = 216
-    Width = 75
-    Height = 25
+    Left = 356
+    Top = 224
+    Width = 61
+    Height = 20
     Caption = 'Cancel'
     TabOrder = 2
     OnClick = bCancelClick

@@ -27,7 +27,7 @@ void __fastcall TFAboutDlg_11011981::lEmailClick(TObject *Sender)
 //---------------------------------------------------------------------------
 void __fastcall TFAboutDlg_11011981::lWWWClick(TObject *Sender)
 {
-	ShellExecute(Handle, "open", "http://kpnc.org/idr32/en/", 0, 0, 1);
+	ShellExecute(Handle, "open", "https://github.com/crypto2011/IDR", 0, 0, 1);
 }
 //---------------------------------------------------------------------------
 void __fastcall TFAboutDlg_11011981::bDonateClick(TObject *Sender)
