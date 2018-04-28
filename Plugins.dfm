@@ -1,6 +1,6 @@
 object FPlugins: TFPlugins
-  Left = 550
-  Top = 365
+  Left = 749
+  Top = 353
   Width = 548
   Height = 287
   Caption = 'Plugins'
@@ -28,10 +28,10 @@ object FPlugins: TFPlugins
     OnDblClick = cklbPluginsListDblClick
   end
   object bOk: TButton
-    Left = 125
+    Left = 117
     Top = 224
     Width = 61
-    Height = 20
+    Height = 24
     Caption = 'Ok'
     TabOrder = 1
     OnClick = bOkClick
@@ -40,7 +40,7 @@ object FPlugins: TFPlugins
     Left = 356
     Top = 224
     Width = 61
-    Height = 20
+    Height = 24
     Caption = 'Cancel'
     TabOrder = 2
     OnClick = bCancelClick
