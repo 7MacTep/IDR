@@ -8,6 +8,7 @@
 #include <StdCtrls.hpp>
 #include <Forms.hpp>
 #include <CheckLst.hpp>
+#include <ExtCtrls.hpp>
 //---------------------------------------------------------------------------
 class TFPlugins : public TForm
 {

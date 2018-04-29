@@ -511,6 +511,17 @@ __published:	// IDE-managed Components
     TMenuItem *miSetlvartype;
     TPopupMenu *pmNames;
     TMenuItem *miCopytoClipboardNames;
+        TMenuItem *N2;
+        TMenuItem *N3;
+        TMenuItem *N4;
+        TMenuItem *CMD1;
+        TMenuItem *Notepad1;
+        TMenuItem *Calc1;
+        TMenuItem *ShellIntegration1;
+        TMenuItem *CopyLines1;
+        TMenuItem *CopyLinesC1;
+        TMenuItem *N5;
+        TMenuItem *N6;
     void __fastcall miExitClick(TObject *Sender);
     void __fastcall miAutodetectVersionClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
@@ -701,6 +712,12 @@ __published:	// IDE-managed Components
     void __fastcall miSetlvartypeClick(TObject *Sender);
     void __fastcall pmSourceCodePopup(TObject *Sender);
     void __fastcall miCopytoClipboardNamesClick(TObject *Sender);
+        void __fastcall CMD1Click(TObject *Sender);
+        void __fastcall Notepad1Click(TObject *Sender);
+        void __fastcall Calc1Click(TObject *Sender);
+        void __fastcall ShellIntegration1Click(TObject *Sender);
+        void __fastcall CopyLines1Click(TObject *Sender);
+        void __fastcall CopyLinesC1Click(TObject *Sender);
 private:	// User declarations
     bool            ProjectLoaded;
 
