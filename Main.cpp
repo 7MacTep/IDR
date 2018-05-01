@@ -53,7 +53,7 @@ int         DelphiThemesCount;
 //unsigned long stat_GetClassAdr_calls = 0;
 //unsigned long stat_GetClassAdr_adds = 0;
 //---------------------------------------------------------------------------
-String  IDRVersion = "28.04.2018"; 
+String  IDRVersion = "01.05.2018"; 
 //---------------------------------------------------------------------------
 SysProcInfo    SysProcs[] = {
     {"@HandleFinally", 0},
@@ -13401,19 +13401,12 @@ void __fastcall TFMain_11011981::ShellIntegration1Click(TObject *Sender)
 
 void __fastcall TFMain_11011981::CopyLines1Click(TObject *Sender)
 {
-if (lbStrings->ItemIndex < 0)
-      return;
-  AnsiString strm1, strm2;
-  strm1 = "";
+  AnsiString strm2;
   strm2 = "";
+ if (lbStrings->ItemIndex < 0) return;
   for(int i = 0; i < lbStrings->Items->Count; i++)
-  {
    if(lbStrings->Selected[i])
-    {
-      strm1 = (lbStrings->Items->Strings[i]);
-      strm2 += (strm1.Delete(1,1)+"\r"+"\n");
-    }
-   }
+      strm2 += (lbStrings->Items->Strings[i].Delete(1,1)+"\r"+"\n");
    Clipboard()->Open();
    Clipboard()->AsText = strm2;
    Clipboard()->Close();
@@ -13421,21 +13414,18 @@ if (lbStrings->ItemIndex < 0)
 //---------------------------------------------------------------------------
 
 void __fastcall TFMain_11011981::CopyLinesC1Click(TObject *Sender)
-{     
- if (lbCode->ItemIndex < 0)
-  return;
- AnsiString strmc1, strmc2, strmc3, strmc4, strmc5;
- strmc1 = "";
+{
+ AnsiString strmc2, strmc3, strmc4, strmc5;
  strmc2 = "";
  strmc3 = "";
  strmc4 = "";
- strmc5 = "";
+ strmc5 = "";     
+ if (lbCode->ItemIndex < 0) return;
  for (int k = 0; k < lbCode->Items->Count; k++)
  {
   if(lbCode->Selected[k])
    {
-     strmc1 = (lbCode->Items->Strings[k]);
-     strmc2 = strmc1.Delete(1,1);
+     strmc2 = lbCode->Items->Strings[k].Delete(1,1);
      strmc4 = ("$"+strmc2.SubString(1,8));
     if (TryStrToInt(strmc4, 0))
      {
