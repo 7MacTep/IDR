@@ -310,3 +310,67 @@ void __fastcall TFExplorer_11011981::FormCreate(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+void __fastcall TFExplorer_11011981::pc1Change(TObject *Sender)
+{
+ if (pc1->ActivePage == tsString)
+ {
+  CopyLinesExp1->Enabled = false;
+  CopyLinesExp1->Visible = false;
+  CopySelected1->Enabled = true;
+  CopySelected1->Visible = true;
+ }
+ else
+  {
+   CopyLinesExp1->Enabled = true;
+   CopyLinesExp1->Visible = true;
+   CopySelected1->Enabled = false;
+   CopySelected1->Visible = false;
+  }
+}
+//---------------------------------------------------------------------------
+
+void __fastcall TFExplorer_11011981::CopyLinesExp1Click(TObject *Sender)
+{
+ AnsiString tm1;
+ tm1 = "";
+ if (pc1->ActivePage == tsCode)
+ {
+ //if (lbCode->ItemIndex < 0) return;
+  for(int i = 0; i < lbCode->Items->Count; i++)
+   if(lbCode->Selected[i])
+      tm1 += (lbCode->Items->Strings[i]+"\r"+"\n");
+  }
+ else
+  if (pc1->ActivePage == tsData)
+ {
+ //if (lbData->ItemIndex < 0) return;
+  for(int d = 0; d < lbData->Items->Count; d++)
+   if(lbData->Selected[d])
+      tm1 += (lbData->Items->Strings[d]+"\r"+"\n");
+  }
+  else
+    if (pc1->ActivePage == tsText)
+ {
+ //if (lbText->ItemIndex < 0) return;
+  for(int f = 0; f < lbText->Items->Count; f++)
+   if(lbText->Selected[f])
+      tm1 += (lbText->Items->Strings[f]+"\r"+"\n");
+  }
+   Clipboard()->Open();
+   Clipboard()->AsText = tm1;
+   Clipboard()->Close();
+}   
+//---------------------------------------------------------------------------
+
+void __fastcall TFExplorer_11011981::CopySelected1Click(TObject *Sender)
+{
+ if (lbString->SelLength > 0)
+  {
+   Clipboard()->Open();
+   Clipboard()->AsText = lbString->SelText;
+   Clipboard()->Close();
+  }
+}
+//---------------------------------------------------------------------------
+
+

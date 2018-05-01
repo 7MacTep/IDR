@@ -38,6 +38,8 @@ __published:	// IDE-managed Components
     TPanel *Panel1;
     TButton *btnDefString;
     TButton *btnUndefString;
+        TMenuItem *CopyLinesExp1;
+        TMenuItem *CopySelected1;
     void __fastcall btnDefCodeClick(TObject *Sender);
     void __fastcall btnUndefCodeClick(TObject *Sender);
     void __fastcall rgStringViewStyleClick(TObject *Sender);
@@ -48,6 +50,9 @@ __published:	// IDE-managed Components
     void __fastcall rgDataViewStyleClick(TObject *Sender);
     void __fastcall btnDefStringClick(TObject *Sender);
     void __fastcall FormCreate(TObject *Sender);
+        void __fastcall pc1Change(TObject *Sender);
+        void __fastcall CopyLinesExp1Click(TObject *Sender);
+        void __fastcall CopySelected1Click(TObject *Sender);
 private:	// User declarations
     DWORD   Adr;    //Адрес, с которого показывается информация
 public:		// User declarations
